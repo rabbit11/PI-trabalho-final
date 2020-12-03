@@ -52,6 +52,11 @@ while 1:
                         weared_mask_font_color, thickness, cv2.LINE_AA)
 
         else:
+            for (x, y, w, h) in eyes:
+                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                roi_gray = gray[y:y + h, x:x + w]
+                roi_color = img[y:y + h, x:x + w]
+
             mouth_rects = mouth_cascade.detectMultiScale(gray, 1.05, 30, minSize=(50, 50))
 
             # Eyes detected but Lips not detected which means person is wearing mask
