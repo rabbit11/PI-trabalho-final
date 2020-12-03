@@ -23,7 +23,7 @@ weared_mask = "Thank You for wearing MASK"
 not_weared_mask = "Please wear MASK to defeat Corona"
 
 # Read video
-img = cv2.imread("./img/mascara-escura.png")
+img = cv2.imread("./img/dog.png")
 
 while 1:
     # Get individual frame
