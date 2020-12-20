@@ -32,6 +32,7 @@ def removeBackground(img) :
         ))
     contour_info = sorted(contour_info, key=lambda c: c[2], reverse=True)
     max_contour = contour_info[0]
+    
 
     #-- Create empty mask, draw filled polygon on it corresponding to largest contour ----
     # Mask is black, polygon is white
