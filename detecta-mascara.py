@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import random
+import RemoveBackground as rb
 
 # multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
 
@@ -16,16 +17,18 @@ bw_threshold = 80
 font = cv2.FONT_HERSHEY_SIMPLEX
 org = (30, 30)
 weared_mask_font_color = (255, 0, 0)
-not_weared_mask_font_color = (0, 0, 0)
+not_wearing_mask_font_color = (0, 0, 0)
 thickness = 2
 font_scale = 1
 weared_mask = "Thank You for wearing MASK"
-not_weared_mask = "Please wear MASK to defeat Corona"
+not_wearing_mask = "Please wear MASK to defeat Corona"
 
 # Read video
-img = cv2.imread("./img/dog.png")
+img = cv2.imread("./img/mascara-escura.png")
 
-while 1:
+img = rb.removeBackground(img)
+
+for i in range(0, 1):
     # Get individual frame
     # ret, img = cap.read()
     # img = cv2.flip(img,1)
@@ -69,10 +72,10 @@ while 1:
                     if(y < my < y + h):
                         # Face and Lips are detected but lips coordinates are within face cordinates which `means lips prediction is true and
                         # person is not waring mask
-                        cv2.putText(img, not_weared_mask, org, font, font_scale,
-                                    not_weared_mask_font_color, thickness, cv2.LINE_AA)
+                        cv2.putText(img, not_wearing_mask, org, font, font_scale,
+                                    not_wearing_mask_font_color, thickness, cv2.LINE_AA)
 
-                        #cv2.rectangle(img, (mx, my), (mx + mh, my + mw), (0, 0, 255), 3)
+                        cv2.rectangle(img, (mx, my), (mx + mh, my + mw), (0, 0, 255), 3)
                         break
     elif(len(faces) == 0 and len(faces_bw) == 1):
         # It has been observed that for white mask covering mouth, with gray image face prediction is not happening
@@ -80,7 +83,7 @@ while 1:
     else:
         # Draw rectangle on gace
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
             roi_gray = gray[y:y + h, x:x + w]
             roi_color = img[y:y + h, x:x + w]
 
@@ -97,7 +100,7 @@ while 1:
                 if(y < my < y + h):
                     # Face and Lips are detected but lips coordinates are within face cordinates which `means lips prediction is true and
                     # person is not waring mask
-                    cv2.putText(img, not_weared_mask, org, font, font_scale, not_weared_mask_font_color, thickness, cv2.LINE_AA)
+                    cv2.putText(img, not_wearing_mask, org, font, font_scale, not_weared_mask_font_color, thickness, cv2.LINE_AA)
 
                     #cv2.rectangle(img, (mx, my), (mx + mh, my + mw), (0, 0, 255), 3)
                     break
@@ -108,5 +111,6 @@ while 1:
     if k == 27:
         break
 
+cv2.waitKey()
 # Release video
 cv2.destroyAllWindows()
