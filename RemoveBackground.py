@@ -52,8 +52,6 @@ def removeBackground(img) :
     masked = (masked * 255).astype('uint8')                     # Convert back to 8-bit 
 
     cv2.imshow('img', masked)                                   # Display
-    cv2.waitKey()
-
     cv2.imwrite('img/aaa.jpg', masked)           # Save
 
     return masked
